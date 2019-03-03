@@ -86,7 +86,22 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
 
     @Override
     public int getItemCount() {
-        //getting the count of the table(I think?)
+        // getting the count of the table(I think?)
+        // ask JAMES about this.
         return mCursor.getCount();
+    }
+
+
+    public void swapCursor (Cursor newCursor){
+        // how to read: if mCursor is NOT empty/if the mCursor is FULL
+        if(mCursor != null){
+            mCursor.close();
+        }
+        mCursor = newCursor;
+
+        if(newCursor != null){
+            // guessing that this allows the cards to "reorganize"
+            notifyDataSetChanged();
+        }
     }
 }

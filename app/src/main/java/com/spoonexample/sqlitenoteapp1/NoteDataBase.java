@@ -56,7 +56,7 @@ public class NoteDataBase extends SQLiteOpenHelper {
     // correct this is not needed anymore.
     public Cursor getAllData(){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor allData = db.rawQuery("select body from " + TABLE_NAME, null);
+        Cursor allData = db.rawQuery("select * from " + TABLE_NAME, null);
         return allData;
         }
     }

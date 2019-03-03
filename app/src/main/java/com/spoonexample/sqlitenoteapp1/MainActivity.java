@@ -3,10 +3,12 @@ package com.spoonexample.sqlitenoteapp1;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.Button;
 
@@ -30,6 +32,18 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new NoteAdapter(this, getAllData());
         recyclerView.setAdapter(mAdapter);
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+                removeItem((int) viewHolder.itemView.getTag());
+            }
+        }).attachToRecyclerView(recyclerView);
 
         mNewNote = findViewById(R.id.button_createNote);
         createNewNote();
@@ -56,5 +70,10 @@ public class MainActivity extends AppCompatActivity {
                 null,
                 Note.NoteEntry.COLUMN_TIMESTAMP + " DESC"
         );
+    }
+
+    public void removeItem(int id){
+        mDatabase.delete(Note.NoteEntry.TABLE_NAME, Note.NoteEntry.COLUMN_ID + "=" + id, null);
+        mAdapter.swapCursor(getAllData());
     }
 }
