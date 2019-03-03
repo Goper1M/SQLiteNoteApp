@@ -10,17 +10,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 
-import java.util.ArrayList;
-
 
 public class MainActivity extends AppCompatActivity {
     private Button mNewNote;
     private SQLiteDatabase mDatabase;
     private NoteAdapter mAdapter;
-    static ArrayList<SingleNote> mNotesList = new ArrayList<>();
-
-
-
 
 
     @Override
@@ -38,21 +32,9 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(mAdapter);
 
         mNewNote = findViewById(R.id.button_createNote);
-
-        System.out.println(mNotesList);
-
         createNewNote();
-
-
-
-
-
-
-
-
-
-
     }
+
     public void createNewNote(){
         mNewNote.setOnClickListener(new View.OnClickListener() {
             @Override

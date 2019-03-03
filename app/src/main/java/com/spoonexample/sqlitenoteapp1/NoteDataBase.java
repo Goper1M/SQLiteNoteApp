@@ -6,25 +6,20 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import com.spoonexample.sqlitenoteapp1.Note.*;
-import android.widget.Toast;
 
 import static com.spoonexample.sqlitenoteapp1.Note.NoteEntry.TABLE_NAME;
 
 public class NoteDataBase extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "notes.db";
-//    public static final String TABLE_NAME = "noteList";
-//    public static final String COLUMN_TITLE = "title";
-//    public static final String COLUMN_BODY = "body";
-//    public static final String COLUMN_ID = "id";
-
 
     public NoteDataBase(Context context) {
+        // make the database
         super(context, DATABASE_NAME, null, 1);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // creating the table
+        // creating the table inside the database
         final String SQL_CREATE_NOTE_TABLE = "CREATE table " +
                 NoteEntry.TABLE_NAME + "(" +
                 NoteEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -32,7 +27,6 @@ public class NoteDataBase extends SQLiteOpenHelper {
                 NoteEntry.COLUMN_TITLE + " TEXT NOT NULL, " +
                 NoteEntry.COLUMN_BODY + " TEXT NOT NULL)";
         db.execSQL(SQL_CREATE_NOTE_TABLE);
-//        db.execSQL("CREATE TABLE " + TABLE_NAME + "(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, body TEXT)");
     }
 
     @Override
@@ -40,7 +34,9 @@ public class NoteDataBase extends SQLiteOpenHelper {
         db.execSQL("drop table if exists " + TABLE_NAME);
         onCreate(db);
     }
-    //might not use this anymore...?
+    // might not use this anymore...?
+    // this is now used in NoteTaking.class
+    // keeping this here so i know of another way to do it.
     public boolean insertData(String title, String body){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -57,6 +53,7 @@ public class NoteDataBase extends SQLiteOpenHelper {
         }
     }
     // this might not be used anymore
+    // correct this is not needed anymore.
     public Cursor getAllData(){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor allData = db.rawQuery("select body from " + TABLE_NAME, null);
