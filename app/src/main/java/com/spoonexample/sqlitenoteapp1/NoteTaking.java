@@ -2,13 +2,13 @@ package com.spoonexample.sqlitenoteapp1;
 
 import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
 
 public class NoteTaking extends AppCompatActivity {
     private EditText mTitle, mBody;
@@ -73,6 +73,7 @@ public class NoteTaking extends AppCompatActivity {
                     // need to tell the adapter or someone that
                     // a note has been updated.., so move it
                     // it to the top.
+                    // ** maybe i don't need to do this and leave the note where it is.
                 }
                 //clearing the contents of the body and title.
                 mBody.getText().clear();

@@ -29,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
         mDatabase = dbDataBase.getWritableDatabase();
         // Recycler stuff
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new NoteAdapter(this, getAllData());
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(mAdapter);
 
         slideToDelete(recyclerView);
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         createNewNote();
     }
 
-    public void createNewNote(){
+    public void createNewNote() {
         mNewNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public Cursor getAllData(){
+    public Cursor getAllData() {
         return mDatabase.query(
                 Note.NoteEntry.TABLE_NAME,
                 null,
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
-    public void slideToDelete(RecyclerView recyclerView){
+    public void slideToDelete(RecyclerView recyclerView) {
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
@@ -75,7 +75,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }).attachToRecyclerView(recyclerView);
     }
-    public void removeItem(int id){
+
+    public void removeItem(int id) {
         mDatabase.delete(Note.NoteEntry.TABLE_NAME, Note.NoteEntry.COLUMN_ID + "=" + id, null);
         mAdapter.swapCursor(getAllData());
     }

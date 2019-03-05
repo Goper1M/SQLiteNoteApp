@@ -16,7 +16,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     private static Cursor mCursor;
 
 
-    public NoteAdapter(Context context, Cursor cursor){
+    public NoteAdapter(Context context, Cursor cursor) {
         mContext = context;
         mCursor = cursor;
     }
@@ -58,7 +58,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     public NoteViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         //have a question.. WHAT IS mCONTEXT???
         // it is the environment you are in
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recycler_card_item,null);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recycler_card_item, null);
         NoteViewHolder VH = new NoteViewHolder(v);
         return VH;
     }
@@ -68,7 +68,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         // how to read: if mCursor.moveToPosition() is FALSE
         // not really sure what this does yet.
         // ok i really need this but i don't know why ASK JAMES
-        if(!mCursor.moveToPosition(i)){
+        if (!mCursor.moveToPosition(i)) {
             return;
         }
         //reading the string out of our dataBase using mCursor
@@ -77,7 +77,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         String body = mCursor.getString(mCursor.getColumnIndex(Note.NoteEntry.COLUMN_BODY));
         // reading the id out of our database.
         int id = mCursor.getInt(mCursor.getColumnIndex(Note.NoteEntry.COLUMN_ID));
-
         //This is a whole item in an entry (eg. a CARDVIEW)
         viewHolder.itemView.setTag(id);
         viewHolder.mTitle.setText(title);
@@ -92,14 +91,14 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     }
 
 
-    public void swapCursor (Cursor newCursor){
+    public void swapCursor(Cursor newCursor) {
         // how to read: if mCursor is NOT empty/if the mCursor is FULL
-        if(mCursor != null){
+        if (mCursor != null) {
             mCursor.close();
         }
         mCursor = newCursor;
 
-        if(newCursor != null){
+        if (newCursor != null) {
             // guessing that this allows the cards to "reorganize"
             notifyDataSetChanged();
         }

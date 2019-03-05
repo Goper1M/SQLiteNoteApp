@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
 import com.spoonexample.sqlitenoteapp1.Note.*;
 
 import static com.spoonexample.sqlitenoteapp1.Note.NoteEntry.TABLE_NAME;
@@ -30,14 +31,16 @@ public class NoteDataBase extends SQLiteOpenHelper {
     }
 
     @Override
+    // not really sure what this does..
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("drop table if exists " + TABLE_NAME);
         onCreate(db);
     }
+
     // might not use this anymore...?
     // this is now used in NoteTaking.class
     // keeping this here so i know of another way to do it.
-    public boolean insertData(String title, String body){
+    public boolean insertData(String title, String body) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         //putting the title and body in contentValues
@@ -46,20 +49,21 @@ public class NoteDataBase extends SQLiteOpenHelper {
         //inserting our data into the db instance using keyword insert --- isInserted will return -1 if successful
         long isInserted = db.insert(TABLE_NAME, null, contentValues);
         //checking to see if our data has been inserted, will return true if successful and false otherwise.
-        if(isInserted == -1){
+        if (isInserted == -1) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
+
     // this might not be used anymore
     // correct this is not needed anymore.
-    public Cursor getAllData(){
+    public Cursor getAllData() {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor allData = db.rawQuery("select * from " + TABLE_NAME, null);
         return allData;
-        }
     }
+}
 
 
 
