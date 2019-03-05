@@ -16,7 +16,7 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
     private Button mNewNote;
     private SQLiteDatabase mDatabase;
-    private NoteAdapter mAdapter;
+    public static NoteAdapter mAdapter;
 
 
     @Override
@@ -33,17 +33,7 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new NoteAdapter(this, getAllData());
         recyclerView.setAdapter(mAdapter);
 
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-                removeItem((int) viewHolder.itemView.getTag());
-            }
-        }).attachToRecyclerView(recyclerView);
+        slideToDelete(recyclerView);
 
         mNewNote = findViewById(R.id.button_createNote);
         createNewNote();
@@ -72,6 +62,19 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
+    public void slideToDelete(RecyclerView recyclerView){
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+                removeItem((int) viewHolder.itemView.getTag());
+            }
+        }).attachToRecyclerView(recyclerView);
+    }
     public void removeItem(int id){
         mDatabase.delete(Note.NoteEntry.TABLE_NAME, Note.NoteEntry.COLUMN_ID + "=" + id, null);
         mAdapter.swapCursor(getAllData());
