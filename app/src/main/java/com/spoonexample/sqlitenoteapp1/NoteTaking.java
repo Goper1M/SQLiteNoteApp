@@ -41,6 +41,8 @@ public class NoteTaking extends AppCompatActivity {
         mBody.setText(body);
         mSaveData();
 
+
+
     }
     public void mSaveData(){
         mButtonSave.setOnClickListener(new View.OnClickListener() {
@@ -68,6 +70,9 @@ public class NoteTaking extends AppCompatActivity {
                 }else{
                     //updating all the contentValues of the database named TABLE_NAME using the function update().
                     mDatabase.update(Note.NoteEntry.TABLE_NAME, contentValues, "_id = " + mId,null );
+                    // need to tell the adapter or someone that
+                    // a note has been updated.., so move it
+                    // it to the top.
                 }
                 //clearing the contents of the body and title.
                 mBody.getText().clear();
@@ -79,5 +84,4 @@ public class NoteTaking extends AppCompatActivity {
             }
         });
     }
-
 }
