@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="6dp"
-    android:padding="4dp"
+    android:padding="6dp"
     app:cardCornerRadius="4dp">
 
     <RelativeLayout
@@ -14,10 +14,11 @@
 
         <TextView
             android:id="@+id/title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:text="Sample line 1"
+            android:textAlignment="center"
             android:textSize="40sp" />
 
         <TextView

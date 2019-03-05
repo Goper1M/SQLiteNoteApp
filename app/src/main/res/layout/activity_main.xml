@@ -24,14 +24,5 @@
         android:layout_alignParentBottom="true"
         android:paddingBottom="8dp"
         android:text="New note" />
-    <!--<TextView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:id="@+id/text_createNote"-->
-    <!--android:hint="Take a note..."-->
-    <!--android:textSize="20sp"-->
-    <!--android:padding="8dp"-->
-    <!--android:layout_alignParentBottom="true"/>-->
-
 
 </RelativeLayout>
