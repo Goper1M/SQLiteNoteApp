@@ -22,6 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:background="@android:color/darker_gray"
         android:paddingBottom="8dp"
         android:text="New note" />
 
