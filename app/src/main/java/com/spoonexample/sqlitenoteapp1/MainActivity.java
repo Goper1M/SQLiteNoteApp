@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Canvas;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -71,9 +72,34 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
 
+            // the x-position of the foreground view is changed while user is swiping the view.
+            @Override
+            public void onChildDrawOver(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                final View foregroundView = ((NoteAdapter.NoteViewHolder) viewHolder).viewForeground;
+                // used by ItemTouchHelper to detect whenever there is UI change on the view.
+                // We use this function to keep the background view in a static position and move the foreground view.
+                // i'm talking about getDefaultUiUtil();
+                getDefaultUIUtil().onDrawOver(c, recyclerView, foregroundView, dX, dY, actionState, isCurrentlyActive);
+            }
+
+            // i think this just clears the view
+            @Override
+            public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+                final View foregroundView = ((NoteAdapter.NoteViewHolder) viewHolder).viewForeground;
+                getDefaultUIUtil().clearView(foregroundView);
+            }
+
+            // when we select something.
+//            @Override
+//            public void onSelectedChanged(@Nullable RecyclerView.ViewHolder viewHolder, int actionState) {
+//                final View foregroundView = ((NoteAdapter.NoteViewHolder) viewHolder).viewForeground;
+//                getDefaultUIUtil().onSelected(foregroundView);
+//            }
+
             @Override
             public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+                final View foregroundView = ((NoteAdapter.NoteViewHolder) viewHolder).viewForeground;
+                getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY, actionState, isCurrentlyActive);
             }
 
             @Override
