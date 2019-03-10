@@ -3,6 +3,7 @@ package com.spoonexample.sqlitenoteapp1;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Canvas;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,7 +17,7 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
     private Button mNewNote;
     private SQLiteDatabase mDatabase;
-    public static NoteAdapter mAdapter;
+    private NoteAdapter mAdapter;
 
 
     @Override
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // this will get all the items out of the noteList Table.
     public Cursor getAllData() {
         return mDatabase.query(
                 Note.NoteEntry.TABLE_NAME,
@@ -63,10 +65,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void slideToDelete(RecyclerView recyclerView) {
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
                 return false;
+            }
+
+            @Override
+            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
             }
 
             @Override

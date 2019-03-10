@@ -11,9 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/button_createNote"
-        android:background="@android:color/darker_gray"
-        android:padding="6dp"
-        android:paddingBottom="8dp">
+        android:background="@android:color/white"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp">
 
     </android.support.v7.widget.RecyclerView>
 
@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@android:color/darker_gray"
+        android:background="@android:color/white"
         android:paddingBottom="8dp"
         android:text="New note" />
 

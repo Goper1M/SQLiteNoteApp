@@ -59,7 +59,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull NoteViewHolder viewHolder, int i) {
-        // how to read: if mCursor.moveToPosition() is FALSE
+        // how to read: if mCursor.moveToPosition() is FALSE or if the
         // not really sure what this does yet.
         // ok i really need this but i don't know why ASK JAMES
         if (!mCursor.moveToPosition(i)) {
