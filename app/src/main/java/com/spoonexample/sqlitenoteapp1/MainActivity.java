@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Canvas;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,9 +17,9 @@ import android.widget.Button;
 
 
 public class MainActivity extends AppCompatActivity {
-    private Button mNewNote;
     private SQLiteDatabase mDatabase;
     private NoteAdapter mAdapter;
+    private FloatingActionButton mNewNote2;
 
 
     @Override
@@ -37,12 +38,13 @@ public class MainActivity extends AppCompatActivity {
 
         slideToDelete(recyclerView);
 
-        mNewNote = findViewById(R.id.button_createNote);
+        FloatingActionButton fab = findViewById(R.id.button_createNote);
+        mNewNote2 = fab;
         createNewNote();
     }
 
     public void createNewNote() {
-        mNewNote.setOnClickListener(new View.OnClickListener() {
+        mNewNote2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), NoteTaking.class);

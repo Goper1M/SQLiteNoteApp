@@ -12,25 +12,39 @@
         android:layout_height="wrap_content"
         android:background="@null"
         android:hint="Title"
-        android:padding="6dp" />
+        android:textSize="25sp"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:layout_marginHorizontal="6dp"
+        android:padding="6dp"
+        android:layout_marginTop="7dp"/>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="#4FD1C5C5"
+        android:layout_below="@+id/edit_title"
+        android:layout_marginHorizontal="14dp"/>
 
     <EditText
         android:id="@+id/edit_body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/button_save"
+        android:layout_alignParentBottom="true"
         android:layout_below="@+id/edit_title"
         android:background="@null"
         android:gravity="start"
+        android:layout_marginHorizontal="6dp"
         android:hint="Take a Note..."
-        android:padding="6dp" />
+        android:paddingTop="20dp"
+        android:paddingHorizontal="6dp"/>
 
-    <Button
-        android:id="@+id/button_save"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@android:color/background_light"
-        android:text="Save" />
+    <!--<Button-->
+        <!--android:id="@+id/button_save"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:background="@android:color/background_light"-->
+        <!--android:text="Save" />-->
 
 </RelativeLayout>
