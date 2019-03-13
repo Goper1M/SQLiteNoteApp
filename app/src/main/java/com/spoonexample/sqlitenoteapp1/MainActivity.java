@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Canvas;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,12 +14,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-
-import java.sql.Timestamp;
-import java.util.Date;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -108,7 +102,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
                 final View foregroundView = ((NoteAdapter.NoteViewHolder) viewHolder).viewForeground;
-                getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY, actionState, isCurrentlyActive);
+                // Changing the dX to half results in the slider only appearing half the width!
+                getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX / 2, dY, actionState, isCurrentlyActive);
             }
 
             @Override
@@ -116,7 +111,9 @@ public class MainActivity extends AppCompatActivity {
                 // the position is pulled from the adapter when
                 // we set the tag to an itemView, here we are getting that tag.
                 int position = (int)viewHolder.itemView.getTag();
-                // i think this is telling the cursor where to go
+                // telling the cursor to go into the database and
+                // query the TABLE_NAME for all columns at the position being clicked
+                // limit: limits the number of rows that the query will return.
                 mCursor = mDatabase.query(
                         Note.NoteEntry.TABLE_NAME,
                         null,
