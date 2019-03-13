@@ -137,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
                 String body = mCursor.getString(mCursor.getColumnIndex(Note.NoteEntry.COLUMN_BODY));
                 String timeStamp = (mCursor.getString(mCursor.getColumnIndex(Note.NoteEntry.COLUMN_TIMESTAMP)));
                 int id = mCursor.getInt(mCursor.getColumnIndex(Note.NoteEntry._ID));
+
                 snackBar(title, body, timeStamp, id);
                 removeItem((int) viewHolder.itemView.getTag());
 
@@ -161,7 +162,8 @@ public class MainActivity extends AppCompatActivity {
                         contentValues.put(Note.NoteEntry.COLUMN_ID,id);
                         contentValues.put(Note.NoteEntry.COLUMN_TIMESTAMP, timeStamp);
                         mDatabase.insert(Note.NoteEntry.TABLE_NAME, null, contentValues);
-                        // this works but it doesn't show up right away i have to reopen the app to show changes that were made.
+                        // this will get all our data again and bring back the deleted item for the user to see.
+                        mAdapter.swapCursor(getAllData());
                     }
                 });
         snackbar.show();
