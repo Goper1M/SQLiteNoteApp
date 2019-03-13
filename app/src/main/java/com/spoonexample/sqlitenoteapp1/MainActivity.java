@@ -1,25 +1,37 @@
 package com.spoonexample.sqlitenoteapp1;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Canvas;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import java.sql.Timestamp;
+import java.util.Date;
 
 
 public class MainActivity extends AppCompatActivity {
     private SQLiteDatabase mDatabase;
     private NoteAdapter mAdapter;
-    private FloatingActionButton mNewNote2;
+    private FloatingActionButton addNote;
+    private CoordinatorLayout coordinatorLayout;
+    private Cursor mCursor;
+    private static final String TAG = "MainActivity";
+
+
 
 
     @Override
@@ -36,15 +48,17 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(mAdapter);
 
-        slideToDelete(recyclerView);
 
         FloatingActionButton fab = findViewById(R.id.button_createNote);
-        mNewNote2 = fab;
+        addNote = fab;
+        coordinatorLayout = findViewById(R.id.coorinatorLayout);
+
+        slideToDelete(recyclerView);
         createNewNote();
     }
 
     public void createNewNote() {
-        mNewNote2.setOnClickListener(new View.OnClickListener() {
+        addNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), NoteTaking.class);
@@ -91,13 +105,6 @@ public class MainActivity extends AppCompatActivity {
                 getDefaultUIUtil().clearView(foregroundView);
             }
 
-            // when we select something.
-//            @Override
-//            public void onSelectedChanged(@Nullable RecyclerView.ViewHolder viewHolder, int actionState) {
-//                final View foregroundView = ((NoteAdapter.NoteViewHolder) viewHolder).viewForeground;
-//                getDefaultUIUtil().onSelected(foregroundView);
-//            }
-
             @Override
             public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
                 final View foregroundView = ((NoteAdapter.NoteViewHolder) viewHolder).viewForeground;
@@ -106,7 +113,34 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+                // the position is pulled from the adapter when
+                // we set the tag to an itemView, here we are getting that tag.
+                int position = (int)viewHolder.itemView.getTag();
+                // i think this is telling the cursor where to go
+                mCursor = mDatabase.query(
+                        Note.NoteEntry.TABLE_NAME,
+                        null,
+                        "_id = " + position,
+                        null,
+                        null,
+                        null,
+                        null,
+                "1");
+                // this is when to go?
+                // i forgot how to read this again.
+                if (!mCursor.moveToFirst()) {
+                    return;
+                }
+                // this is only possible if our cursor is pointing in the right direction.
+                // setting all our data from database into variables.
+                String title = mCursor.getString(mCursor.getColumnIndex(Note.NoteEntry.COLUMN_TITLE));
+                String body = mCursor.getString(mCursor.getColumnIndex(Note.NoteEntry.COLUMN_BODY));
+                String timeStamp = (mCursor.getString(mCursor.getColumnIndex(Note.NoteEntry.COLUMN_TIMESTAMP)));
+                int id = mCursor.getInt(mCursor.getColumnIndex(Note.NoteEntry._ID));
+                snackBar(title, body, timeStamp, id);
                 removeItem((int) viewHolder.itemView.getTag());
+
+                mCursor.close();
             }
         }).attachToRecyclerView(recyclerView);
     }
@@ -114,5 +148,22 @@ public class MainActivity extends AppCompatActivity {
     public void removeItem(int id) {
         mDatabase.delete(Note.NoteEntry.TABLE_NAME, Note.NoteEntry.COLUMN_ID + "=" + id, null);
         mAdapter.swapCursor(getAllData());
+    }
+    // what does this final mean? ASK JAMES
+    public void snackBar(final String title, final String body, final String timeStamp, final int id){
+            final Snackbar snackbar = Snackbar.make(coordinatorLayout, "Are you sure you want to delete?", Snackbar.LENGTH_INDEFINITE);
+                snackbar.setAction("UNDO", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ContentValues contentValues = new ContentValues();
+                        contentValues.put(Note.NoteEntry.COLUMN_TITLE,title);
+                        contentValues.put(Note.NoteEntry.COLUMN_BODY,body);
+                        contentValues.put(Note.NoteEntry.COLUMN_ID,id);
+                        contentValues.put(Note.NoteEntry.COLUMN_TIMESTAMP, timeStamp);
+                        mDatabase.insert(Note.NoteEntry.TABLE_NAME, null, contentValues);
+                        // this works but it doesn't show up right away i have to reopen the app to show changes that were made.
+                    }
+                });
+        snackbar.show();
     }
 }
