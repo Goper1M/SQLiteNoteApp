@@ -100,13 +100,13 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         //getting the current date and 4days before it.
         LocalDate today = LocalDate.now();
         LocalDate todayMinus1 = today.minusDays(1);
-        String yesterdayMinus1 = (todayMinus1.getDayOfWeek().toString());
+        String yesterdayMinus1 = setNormalCase(todayMinus1.getDayOfWeek().toString());
         LocalDate todayMinus2 = today.minusDays(2);
-        String yesterdayMinus2 = (todayMinus2.getDayOfWeek().toString());
+        String yesterdayMinus2 = setNormalCase(todayMinus2.getDayOfWeek().toString());
         LocalDate todayMinus3 = today.minusDays(3);
-        String yesterdayMinus3 = (todayMinus3.getDayOfWeek().toString());
+        String yesterdayMinus3 = setNormalCase(todayMinus3.getDayOfWeek().toString());
         LocalDate todayMinus4 = today.minusDays(4);
-        String yesterdayMinus4 = (todayMinus4.getDayOfWeek().toString());
+        String yesterdayMinus4 = setNormalCase(todayMinus4.getDayOfWeek().toString());
         // formatting the date to my pattern.
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyy");
         String mToday = today.format(formatter);
@@ -184,5 +184,10 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
             // guessing that this allows the cards to "reorganize"
             notifyDataSetChanged();
         }
+    }
+
+    public String setNormalCase(String str){
+        String day = str.substring(1, str.length()).toLowerCase();
+        return str.substring(0,1) + day;
     }
 }
