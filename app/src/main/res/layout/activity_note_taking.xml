@@ -12,17 +12,17 @@
         android:layout_height="wrap_content"
         android:background="@null"
         android:hint="Title"
-        android:textSize="25sp"
-        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textAlignment="textStart"
         android:textStyle="bold"
         android:layout_marginHorizontal="6dp"
         android:padding="6dp"
         android:layout_marginTop="7dp"/>
 
     <View
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="1dip"
-        android:background="#4FD1C5C5"
+        android:background="#4FB3AAAA"
         android:layout_below="@+id/edit_title"
         android:layout_marginHorizontal="14dp"/>
 
@@ -37,6 +37,7 @@
         android:layout_marginHorizontal="6dp"
         android:hint="Take a Note..."
         android:paddingTop="20dp"
+        android:paddingLeft="6dp"
         android:paddingHorizontal="6dp"/>
 
     <!--<Button-->
