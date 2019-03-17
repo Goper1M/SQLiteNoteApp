@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.View;
 
 
@@ -42,13 +43,19 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(mAdapter);
 
-
         FloatingActionButton fab = findViewById(R.id.button_createNote);
         addNote = fab;
         coordinatorLayout = findViewById(R.id.coorinatorLayout);
 
         slideToDelete(recyclerView);
         createNewNote();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mAdapter.swapCursor(getAllData());
+        Log.d(TAG, "onResume: inHere");
     }
 
     public void createNewNote() {
