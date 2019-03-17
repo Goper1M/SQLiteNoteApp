@@ -2,6 +2,7 @@ package com.spoonexample.sqlitenoteapp1;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -40,8 +41,9 @@ public class NoteTaking extends AppCompatActivity {
     public void onBackPressed() {
         // if its empty
         if (mBody.getText().toString().trim().length() == 0 || mTitle.getText().toString().trim().length() == 0){
-            Intent intent = new Intent(NoteTaking.this, MainActivity.class);
-            startActivity(intent);
+//            Intent intent = new Intent(NoteTaking.this, MainActivity.class);
+//            startActivity(intent);
+            super.onBackPressed();
             return;
         }
         //putting the body and title text into variables
@@ -60,14 +62,9 @@ public class NoteTaking extends AppCompatActivity {
         }else{
             //updating all the contentValues of the database named TABLE_NAME using the function update().
             mDatabase.update(Note.NoteEntry.TABLE_NAME, contentValues, "_id = " + mId,null );
-            // need to tell the adapter or someone that
-            // a note has been updated.., so move it
-            // it to the top.
-            // ** maybe i don't need to do this and leave the note where it is.
+            // this will only update the Database, after the back button has been pressed
+            // the android lifecycle will call onStart() and onResume()
         }
-//        //go back to MainActivity..
-        Intent intent = new Intent(NoteTaking.this, MainActivity.class);
-        startActivity(intent);
         super.onBackPressed();
     }
 }
